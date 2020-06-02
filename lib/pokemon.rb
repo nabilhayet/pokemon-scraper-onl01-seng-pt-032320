@@ -20,7 +20,7 @@ class Pokemon
     name = result[1]
     type = result[2]
     db  = result[3]
-    pok = Pokemon.new(id:,name:,type:,db:)
+    pok = Pokemon.new(id:id,name:name,type:type,db:db)
     pok
   end
 
