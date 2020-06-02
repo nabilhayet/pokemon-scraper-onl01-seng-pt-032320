@@ -1,3 +1,4 @@
+require 'pry'
 class Pokemon
   attr_accessor :id, :name, :type, :db
 
@@ -8,21 +9,19 @@ class Pokemon
     @db = db
   end
 
-  def self.save(name,type,db)
-    sql = <<-SQL
-    INSERT INTO pokemon (name, type, db)
-    VALUES (?, ?, ?)
-    SQL
-
-    DB[:conn].execute(sql, self.name, self.type, self.db)
-    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM pokemon")[0][0]
+  def self.save(name, type, db)
+    db.execute("INSERT INTO pokemon (name, type) VALUES (?, ?)", name, type)
   end
 
-  def self.find_by_id(id)
+  def self.find(id,db)
     sql = "SELECT * FROM pokemon WHERE id = ?"
-    result = DB[:conn].execute(sql, id)[0]
-    pok = Pokemon.new(result[0], result[1], result[2],result[3])
-    pok 
+    result = db.execute(sql, id)[0]
+    id = result[0]
+    name = result[1]
+    type = result[2]
+    db  = result[3]
+    pok = Pokemon.new(id:id,name:name,type:type,db:db)
+    pok
   end
 
   end
