@@ -18,7 +18,11 @@ class Pokemon
     @id = DB[:conn].execute("SELECT last_insert_rowid() FROM pokemon")[0][0]
   end
 
+  def self.find_by_id(id)
+    sql = "SELECT * FROM pokemon WHERE id = ?"
+    result = DB[:conn].execute(sql, id)[0]
+    pok = Pokemon.new(result[0], result[1], result[2],result[3])
+    pok 
   end
 
-
-end
+  end
